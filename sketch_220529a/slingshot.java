@@ -9,7 +9,7 @@ class slingshot{
     public float getDistance(float x, float y){
        return (float)Math.sqrt((this.xLocation-x)*(this.xLocation-x)+(this.yLocation-y)*(this.yLocation-y));
     }
-    public float getDegrees(float x, float y){
+    public float getRadians(float x, float y){
       return (float)Math.atan((this.xLocation-x)/ (this.yLocation-y));
     }
 }

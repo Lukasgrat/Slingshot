@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 import java.lang.Math.*;
-float playerX = 0;
-float playerY = 0;
+float playerSize = 50;
+float playerX = 1 +playerSize/-2;
+float playerY = 1 +playerSize/-2;
 float velocityX = 0;
 float velocityY =0;
-float playerSize = 50;
 float relativeMouseX = 0;
 float relativeMouseY = 0;
 float originalX = 0;
 float originalY = 0;
 boolean mouseHeld = false;
-boolean setVelocity = false;
+boolean setVelocity = true;
 ArrayList<slingshot> slingList = new ArrayList<slingshot>();
 int screenSize = 1200;
 int currentLineAttached = 0; //0 is for no line, 1 is for first line in singList, 2 for 2nd, etc
@@ -55,19 +55,22 @@ void keyInputs(){
       else{
         playerX = originalX + (mouseX -relativeMouseX);
         playerY = originalY + (mouseY - relativeMouseY);
-        if(!setVelocity){
-          setVelocity = true;
-          if(playerX -slingList.get(currentLineAttached-1).xLocation > 0){
-            velocityX *= -1;
-            velocityY += -1;
-          }
-        }
-        System.out.println(slingList.get(currentLineAttached-1).getDegrees(playerX,playerY));
         attachSling();
       }
   }
   else{
     mouseHeld = false;
+      if(!setVelocity){
+          setVelocity = true;
+          velocityX = (float)(Math.abs(sin(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
+          velocityY = (float)(Math.abs(cos(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
+          if( playerX + playerSize/2 - slingList.get(currentLineAttached-1).xLocation > 0){
+            velocityX *= -1;
+          }
+          if( playerY + playerSize/2 - slingList.get(currentLineAttached-1).yLocation > 0){
+            velocityY *= -1;
+          }
+        }
   }
 }
 void displaySlingshot(){
