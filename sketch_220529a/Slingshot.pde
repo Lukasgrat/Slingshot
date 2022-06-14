@@ -10,7 +10,7 @@ float relativeMouseX = 0;
 float relativeMouseY = 0;
 float originalX = 0;
 float originalY = 0;
-int playerHealth = 4;
+int playerHealth = 6;
 int textCooldown = 0;
 boolean mouseHeld = false;
 boolean setVelocity = true;
@@ -25,10 +25,15 @@ int currentLineAttached = 0; //0 is for no line, 1 is for first line in slingLis
 
 SoundFile music;
 boolean musicStarted = false;
+
+PImage leftLegs;
+PImage rightLegs;
 void setup(){
   frameRate(60);
   background(0,0,0);
   music = new SoundFile(this,"audioFiles/startTutorial.wav");
+  leftLegs = loadImage("images/leftLegs1.png");
+  rightLegs = loadImage("images/rightLegs1.png");
 }
 public void settings(){
   size(1400,1400);
@@ -177,18 +182,28 @@ void tutorial(){
     }
 }
 void levelSelect(){
+  textSize(50);
+  text("Kobien Cold Khaos",-500,-150);
   if(!didPhase){
     didPhase = true;
     slingList.add(new slingshot(0,300));
     rectList.add(new rectangle(screenSize/-2+200, -75, screenSize/-2+350, 75, 256256256));
     rectList.get(rectList.size()-1).setXVelocity(0);
-    rectList.add(new rectangle(screenSize/2-350, -75, screenSize/2-200, 75, 256256256));
+    rectList.add(new rectangle(screenSize/-2+225, -50, screenSize/-2+325, 50, 128128128));
     rectList.get(rectList.size()-1).setXVelocity(0);
+  }
+  if(!music.isPlaying()){
+    music= new SoundFile(this,"audioFiles/levelSelect.wav");
+    music.play();
   }
 }
 void stage1(){
   fill(128);
   rect(-1* screenSize/2,-250,screenSize,500);
+  if(!music.isPlaying()){
+    music= new SoundFile(this,"audioFiles/kobienski.wav");
+    music.play();
+  }
   if(!didPhase){
     if(phase == 0){
       playerX = 1 +playerSize/-2;
@@ -203,25 +218,132 @@ void stage1(){
       rectList.add(new rectangle(screenSize+400, -1*screenSize, screenSize+700, -290, 000256000));
     }
     else if(phase == 2){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+1700), 100, -1*(screenSize/2+1400),screenSize, 000256000));
+    }
+    else if(phase == 3){
+      rectList.add(new rectangle(-1*(screenSize+ 700), -700, -1*(screenSize+400), -290, 000256000));
+      rectList.add(new rectangle(screenSize+ 400, 290, screenSize+700, screenSize, 000256000));  
+      
+    }
+    else if(phase == 4){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));  
+    }
+    else if(phase == 5){
+      rectList.add(new rectangle(-100,-1*(screenSize/2+ 250) , screenSize/2, -1*(screenSize/2), 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(15);
+      rectList.add(new rectangle(screenSize/-2,-1*(screenSize/2+ 850) , 100, -1*(screenSize/2+600), 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(15);
+      rectList.add(new rectangle(-100,-1*(screenSize/2+ 1450) , screenSize/2, -1*(screenSize/2+1200), 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(15);
+    }
+    else if(phase == 6){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));    
+    }
+    else if(phase == 7){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), 100, -1*(screenSize/2), 700, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), 100, -1*(screenSize/2), 700, 000256000));    
+    }
+    else if(phase == 8){
+      for(int x = 0; x < 4; x++){
+        rectList.add(new rectangle(-1* screenSize/2-300- 700*x, screenSize/-2 + 200  * (x%2),-1*screenSize/2- 700*x, screenSize/-2 + 200 * (x%2)+300, 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(20);
+       }
+      for(int x = 0; x < 4; x++){
+        rectList.add(new rectangle(screenSize/2+ 700*x, 200+200  * (x%2), screenSize/2+300+ 700*x, 400 + (screenSize/2-400) *(x %2), 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(-20);
+      }
+    }
+    else if(phase == 9){
+      rectList.add(new rectangle(-1*(screenSize/2+ 100), 100, -1*(screenSize/2), 700, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 100), 100, -1*(screenSize/2), 700, 000256000));
+    }
+    else if(phase ==  10){
+      rectList.add(new rectangle(-100,screenSize/2, screenSize/2, screenSize/2+ 250, 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(-15);
+      rectList.add(new rectangle(screenSize/-2,screenSize/2+ 600 , 100, screenSize/2+850, 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(-15);
+      rectList.add(new rectangle(-100,screenSize/2+ 1200, screenSize/2, screenSize/2+1450, 000256000));
+      rectList.get(rectList.size()-1).setXVelocity(0);
+      rectList.get(rectList.size()-1).setYVelocity(-15);
+    }
+    else if(phase == 11){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), -700, -1*(screenSize/2), -100, 000256000));    
+    }
+    else if(phase == 12){
+      for(int x = 0; x < 3; x++){
+        rectList.add(new rectangle(-1* screenSize/2-300- 700*x, screenSize/-2 + 200  * (x%2),-1*screenSize/2- 700*x, screenSize/-2 + 200 * (x%2)+300, 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(20);
+       }
+      for(int x = 0; x < 3; x++){
+        rectList.add(new rectangle(screenSize/2+ 700*x, 200+200  * (x%2), screenSize/2+300+ 700*x, 400 + (screenSize/2-400) *(x %2), 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(-20);
+      }
+    }
+    else if(phase == 13){
       rectList.add(new rectangle(screenSize/2,-1*screenSize/2,screenSize+300+ 7000,100,000256000));
       for(int x = 0; x < 10; x++){
         rectList.add(new rectangle(screenSize+ 700*x, 200+200  * (x%2), screenSize+300+ 700*x, 400 + (screenSize/2-400) *(x %2), 000256000));
       }
-       rectList.add(new rectangle(-1*screenSize- 8500, 200,-1* screenSize-8800, screenSize/2 , 000256000));
     }  
-    else if(phase == 3){
-        rectList.add(new rectangle(screenSize/-2,0,-1*(screenSize+300+ 7000),screenSize/2,000256000));
-         
+    else if(phase == 14){
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), 100, -1*(screenSize/2), 700, 000256000));
+      rectList.add(new rectangle(-1*(screenSize/2+ 300), 100, -1*(screenSize/2), 700, 000256000));
+    }
+    else if(phase == 15){
       for(int x = 0; x < 10; x++){
-        rectList.add(new rectangle(-1* screenSize-300- 700*x, screenSize/-2 + 200  * (x%2),-1*screenSize- 700*x, screenSize/-2 + 200 * (x%2)+300, 000256000));
+        rectList.add(new rectangle(-1* screenSize/2-300- 700*x, screenSize/-2 + 200  * (x%2),-1*screenSize/2- 700*x, screenSize/-2 + 200 * (x%2)+300, 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(20);
        }
-       rectList.add(new rectangle(screenSize+ 8500, screenSize/-2, screenSize+8800,-200, 000256000));
-    
-   }
-   else{
+      for(int x = 0; x < 10; x++){
+        rectList.add(new rectangle(screenSize/2+ 700*x, 200+200  * (x%2), screenSize/2+300+ 700*x, 400 + (screenSize/2-400) *(x %2), 000256000));
+        rectList.get(rectList.size()-1).setXVelocity(-20);
+      }
+    }
+    else if(phase == 16){
+      rectList.add(new rectangle(-1*(screenSize/2+ 100), 100, -1*(screenSize/2), 700, 000256000));
+      rectList.add(new rectangle(screenSize+ 400, screenSize *-1, screenSize+700, -100, 000256000));
+      
+    }
+    else if(phase == 17){
+       for(int x = 0; x < 11; x++){
+         if(x % 2 == 0){
+           rectList.add(new rectangle(screenSize/-2-3000-(x* 100),screenSize/-2-200-(x* 400),screenSize/-2+200-(x* 100), screenSize/-2-(x* 400),000256000));
+           rectList.get(rectList.size()-1).setYVelocity(15);
+           rectList.get(rectList.size()-1).setXVelocity(5);
+           rectList.add(new rectangle(screenSize/-2+400-(x* 100),screenSize/-2-200-(x* 400),screenSize/2+3000-(x* 100), screenSize/-2-(x* 400),000256000));
+           rectList.get(rectList.size()-1).setYVelocity(15);
+           rectList.get(rectList.size()-1).setXVelocity(5);
+           }
+           else{
+             rectList.add(new rectangle(screenSize/2-200+(x* 100),screenSize/-2-200-(x* 400),screenSize/2+3000+(x* 100), screenSize/-2-(x* 400),000256000));
+             rectList.get(rectList.size()-1).setYVelocity(15);
+             rectList.get(rectList.size()-1).setXVelocity(-5);
+             rectList.add(new rectangle(screenSize/2-400+(x* 100),screenSize/-2-200-(x* 400),screenSize/-2-3000+(x* 100), screenSize/-2-(x* 400),000256000));
+             rectList.get(rectList.size()-1).setYVelocity(15); 
+             rectList.get(rectList.size()-1).setXVelocity(-5);
+           }
+         }
+    }
+    else if(phase == 18){
+      rectList.add(new rectangle(-1*(screenSize+ 700), -700, -1*(screenSize+400), -290, 000256000));
+      rectList.add(new rectangle(screenSize+ 400, 290, screenSize+700, screenSize, 000256000)); 
+    }
+    else{
      reset();
    }
    didPhase = true;
+   if(stage == 1){
+     didPhase = false;
+   }
    }
 }
 boolean slingCutoff(){
@@ -276,7 +398,7 @@ void reset(){
   relativeMouseY = 0;
   originalX = 0;
   originalY = 0;
-  playerHealth = 4;
+  playerHealth = 6;
   mouseHeld = false;
   setVelocity = true;
   slingList = new ArrayList<slingshot>();
@@ -284,6 +406,7 @@ void reset(){
   screenSize = 1400;
   hitFrames = 0;
   music.stop();
+  
   if(stage > 0){
     stage = 1;
   }
@@ -320,13 +443,15 @@ void playerDisplay(){
     fill(0,23,133);
   }
   rect(playerX,playerY,playerSize,playerSize);
+  image(leftLegs,playerX-40, playerY);
+  image(rightLegs,playerX+playerSize, playerY);
 }
 void healthDisplay(){
   fill(128);
   rect(screenSize/-2, screenSize/2-250,300,200);
   for(int x = 0; x < playerHealth;x++){  
     fill(0,200,0);
-    rect((75*x)-screenSize/2+12,screenSize/2-225,50,150);
+    rect((50*x)-screenSize/2+12,screenSize/2-225,25,150);
   }
 }
 void keyInputs(){
@@ -356,8 +481,8 @@ void keyInputs(){
     mouseHeld = false;
       if(!setVelocity){
           setVelocity = true;
-          velocityX = 2*(float)(Math.abs(sin(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
-          velocityY = 2*(float)(Math.abs(cos(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
+          velocityX = 3*(float)(Math.abs(sin(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
+          velocityY = 3*(float)(Math.abs(cos(slingList.get(currentLineAttached-1).getRadians(playerX+playerSize/2,playerY+playerSize/2)))*Math.sqrt(slingList.get(currentLineAttached-1).getDistance(playerX+playerSize/2,playerY+playerSize/2)));
           if( playerX + playerSize/2 - slingList.get(currentLineAttached-1).xLocation > 0){
             velocityX *= -1;
           }
@@ -367,6 +492,10 @@ void keyInputs(){
           currentLineAttached = 0;
         }
   }
+  if(key == 'r'){
+    stage = 0;
+    reset();
+    }
 }
 void displaySlingshot(){
   for(int x = 0; x < slingList.size();x++){
