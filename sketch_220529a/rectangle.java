@@ -12,7 +12,10 @@ class rectangle{
       this.x2 = x2;
       this.y2 = y2;
       this.displayColor = displayColor;
-      this.velocityX = -20;
+      this.velocityX = -15;
+      if(this.x1 < 0){
+         this.velocityX = 15;
+      }
     }
     public void setXVelocity(float x){
       this.velocityX = x;
